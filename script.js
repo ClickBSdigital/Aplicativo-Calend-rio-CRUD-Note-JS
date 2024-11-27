@@ -313,14 +313,14 @@ function makePrevMonthArr(firstDayIndex) {
 	}
 
 	return result;
-	//**** previous version of this code was returning just days without state
-	//**** like [1,2,3] instead of day and its state like [{day:1,"prevMonth"}]
-	// return Array.from(
-	// 	{ length: firstDayIndex },
-	// 	(_, i) => prevMonthDays - firstDayIndex + i
-	// );
+	//**** a versão anterior deste código estava retornando apenas alguns dias sem estado
+	//**** como [1,2,3] em vez de dia e seu estado como [{day:1,"prevMonth"}]
+	//retorna Array.from(
+	// { comprimento: firstDayIndex },
+	// (_, i) => prevMonthDays - firstDayIndex + i
+	//);
 }
-// this will print an array of with days of prev month and next month crosponds to the calender table
+// isso imprimirá um array com os dias do mês anterior e do próximo mês correspondentes à tabela do calendário
 function calcMonthCalendar() {
 	// Create array: [1, 2, 3, ..., 30, 31]
 	const currMonth = Array.from(
@@ -333,15 +333,15 @@ function calcMonthCalendar() {
 		(_, i) => ({ day: i + 1, state: "nextMonth" })
 	);
 
-	// Create a flat array with leading zeros and trailing last week:
+	// Crie uma matriz plana com zeros à esquerda e à direita na semana passada:
 	// [0, 0, 0, 0, 1, 2, 3, ..., 30, 31, 1, 2, 3, 4, 5, 6, 7]
 	const flatResultArr = [
 		...makePrevMonthArr(currentFullMonth.first_day_index),
 		...currMonth,
-		...nextMonth // this includes extra numbers that will be trimmed
-	].slice(0, 7 * 6); // 7 days/week * 6 weeks
+		...nextMonth // isso inclui números extras que serão cortados
+	].slice(0, 7 * 6); // 7 dias/semana * 6 semanas
 
-	// Chunk the flat array into slices of 7:
+	// Divida o array plano em fatias de 7:
 	const resultArr = [];
 	for (let i = 0; i < 7; i++) {
 		resultArr.push(flatResultArr.slice(i * 7, (i + 1) * 7));
@@ -349,7 +349,7 @@ function calcMonthCalendar() {
 	return resultArr;
 }
 
-// print each cell its day number and color
+// imprime em cada célula o número do dia e a cor
 function printMonthCalendarInDOM() {
 	const monthArr = calcMonthCalendar();
 
@@ -483,7 +483,7 @@ function showCalenderInfo() {
 	printMonthCalendarInDOM();
 }
 
-// to change the year manually
+//para alterar o ano manualmente
 calenderYearDOM.addEventListener("input", e => {
 	let numberPattern = /\d+/g;
 	let year = parseInt(e.target.innerHTML.match(numberPattern).join(""));
@@ -582,8 +582,8 @@ document.getElementById("update-theme-button").addEventListener("click", () => {
 	closeModal();
 });
 
-//Create,Read,Update Delete a Note!
-//this is event delegation where we select a parent container that will have new cells
+//Criar, ler, atualizar Excluir uma nota!
+//esta é a delegação de eventos onde selecionamos um contêiner pai que terá novas células
 document.body.addEventListener("click", e => {
 	let noteDate;
 	let noteId;
@@ -591,7 +591,7 @@ document.body.addEventListener("click", e => {
 	let verbWord;
 	if (e.target.parentElement.parentElement.id == "table-body") {
 		if (e.target.classList.contains("tooltip-container")) {
-			verbWord = "Edit";
+			verbWord = "Editar";
 			// deleteBtnInPopup.style.display = "display";
 			noteId = e.target.id;
 			console.log("noteId:", noteId);
@@ -617,27 +617,27 @@ document.body.addEventListener("click", e => {
 			if (noteId == "current-day") {
 				noteDate = state.todayDate;
 			}
-			console.log("Add New Note");
-			verbWord = "Create";
-			//delete two below
-			// noteDate =
-			// 	currentFullMonth.year +
-			// 	" " +
-			// 	currentFullMonth.month +
-			// 	" " +
-			// 	e.target.innerHTML;
+			console.log("Adicionar nova nota");
+			verbWord = "Criar";
+			//deleta dois abaixo
+			//notaData =
+			// atualMêsFull.ano +
+			// " " +
+			// atualFullMonth.mês +
+			// " " +
+			//e.target.innerHTML;
 			console.log("zZz");
 
 			openModal(true);
 			addNote(noteDate, noteId);
 			deleteBtnInPopup.style.display = "none";
 		} else {
-			console.log("Not Applicable for previous and next month");
+			console.log("Não aplicável para o mês anterior e seguinte");
 		}
 		noteDateInPopup.innerHTML = noteDate;
 		verb.innerHTML = verbWord;
 	} else if (e.target.classList.contains("fa-sticky-note")) {
-		verbWord = "Edit";
+		verbWord = "Editar";
 		// deleteBtnInPopup.style.display = "display";
 
 		console.log("edit note (sticky)");
@@ -706,11 +706,11 @@ saveBtnInPopup.addEventListener("click", () => {
 		printMonthCalendarInDOM();
 		updateLocalStorage();
 	} else {
-		document.getElementById("warning").innerHTML = "Please fill all fields";
+		document.getElementById("warning").innerHTML = "Por favor preencha todos os campos";
 	}
 });
 
-// delete note
+//exclui nota
 deleteBtnInPopup.addEventListener("click", () => {
 	if (getSelectedNoteId == "current-day") {
 		noteDate =
@@ -727,7 +727,7 @@ deleteBtnInPopup.addEventListener("click", () => {
 	printMonthCalendarInDOM();
 });
 
-//mini clock 12 and 24 timing
+//mini relógio 12 e 24 cronometrando
 let is24hours = true;
 let intervalState;
 function makeClockTikTok() {
@@ -768,28 +768,28 @@ document
 		() => ((is24hours = !is24hours), makeClockTikTok())
 	);
 
-//to stop the calculating time if it is on orientation mode
+//para parar o cálculo do tempo se estiver no modo de orientação
 var mql = window.matchMedia("(orientation: portrait)");
-//if the user launched this app while on portrait mode
+//se o usuário iniciou este aplicativo no modo retrato
 if (!mql.matches) {
 	makeClockTikTok();
 }
 
-// Add a media query change listener
+//Adiciona um ouvinte de alteração de consulta de mídia
 mql.addListener(function(m) {
 	if (m.matches) {
-		// Changed to portrait
+		//Alterado para retrato
 		console.log("portrait mode");
 		clearInterval(intervalState);
 	} else {
-		// Changed to landscape
+		//Alterado para paisagem
 		console.log("landscape mode");
 		makeClockTikTok();
 	}
 });
 
-//things i regret about this project:
-//1- i didnt use a design pattern !
-//2- i used date object as a string instead of date formate in notes
-//3- as the feauters progress i end up with a spagheti code ! sorry :(
-// FACT: it wouldn't be possible without the builtin date object "new Date()" thanks javascript !
+//coisas das quais me arrependo neste projeto:
+//1- eu não usei um padrão de design!
+//2- usei o objeto de data como uma string em vez do formato de data nas notas
+//3- conforme os feauters progridem eu acabo com um código spagheti ! desculpe :(
+// FATO: não seria possível sem o objeto de data integrado "new Date()" obrigado javascript!
